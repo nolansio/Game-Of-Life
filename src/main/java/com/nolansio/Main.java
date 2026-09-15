@@ -115,7 +115,7 @@ public class Main {
                 for (char character: line.toCharArray()) {
                     String cell = String.valueOf(character);
 
-                    if (cell.equalsIgnoreCase("O") || cell.equalsIgnoreCase("⬜")) {
+                    if (cell.equalsIgnoreCase("O") || cell.equalsIgnoreCase("0") || cell.equalsIgnoreCase("⬜")) {
                         baseCells.add(new BaseCell(row, col, true));
                     }
 
