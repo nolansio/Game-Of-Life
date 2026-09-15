@@ -1,18 +1,16 @@
 package com.nolansio;
 
-import java.util.Arrays;
-
 
 public class Matrix {
     private final int rows;
     private final int cols;
-    private final String[][] matrix;
+    private final Cell[][] cells;
 
     public Matrix(int rows, int cols) {
         this.rows = rows;
         this.cols = cols;
 
-        this.matrix = create(getRows(), getCols());
+        this.cells = create(getRows(), getCols());
     }
 
     public int getRows() {
@@ -23,72 +21,65 @@ public class Matrix {
         return cols;
     }
 
-    public String getContent(int row, int col) {
-        return matrix[row][col];
+    public Cell[][] getCells() {
+        return cells;
     }
 
-    public void setContent(int row, int col, String content) {
-        matrix[row][col] = content;
+    public Cell getCell(int row, int col) {
+        return getCells()[row][col];
     }
 
-    public boolean isAlive(int row, int col) {
-        if (row < 0 || row >= rows || col < 0 || col >= cols) {
-            return false;
+    public Cell[][] create(int rows, int cols) {
+        Cell[][] cells = new Cell[rows][cols];
+
+        for (int row = 0; row < rows; row++) {
+            for (int col = 0; col < cols; col++) {
+                cells[row][col] = new Cell(row, col, this);
+            }
         }
 
-        return getContent(row, col).equalsIgnoreCase("⬜");
-    }
+        cells[0][1].setAlive(true);
+        cells[1][2].setAlive(true);
+        cells[2][0].setAlive(true);
+        cells[2][1].setAlive(true);
+        cells[2][2].setAlive(true);
 
-    public void setAlive(int row, int col, boolean alive) {
-        if (alive) {
-            setContent(row, col, "⬜");
-            return;
-        }
-
-        setContent(row, col, "⬛");
-    }
-
-    public String[][] create(int rows, int cols) {
-        String[][] matrix = new String[rows][cols];
-
-        for (String[] cells : matrix) {
-            Arrays.fill(cells, "⬛");
-        }
-
-        matrix[1][1] = "⬜";
-        matrix[1][2] = "⬜";
-        matrix[2][1] = "⬛";
-        matrix[2][2] = "⬜";
-
-        return matrix;
+        return cells;
     }
 
     public void display() {
         IO.println("");
 
-        for (int row = 0; row < matrix.length; row++) {
-            for (int col = 0; col < matrix[row].length; col++) {
-                System.out.print(matrix[row][col] + " ");
+        for (int row = 0; row < rows; row++) {
+            for (int col = 0; col < cols; col++) {
+                Cell cell = getCell(row, col);
+                if (cell.isAlive()) {
+                    IO.print("⬜");
+                    continue;
+                }
+
+                IO.print("⬛");
             }
-            System.out.println();
+
+            IO.println();
         }
 
         IO.println("");
     }
 
     public void check() {
-        for (int col = 0; col < matrix.length; col++) {
-            for (int row = 0; row < matrix[col].length; row++) {
-                Cell cell = new Cell(col, row, this);
+        for (int row = 0; row < rows; row++) {
+            for (int col = 0; col < cols; col++) {
+                Cell cell = getCell(row, col);
                 cell.checkNextAlives();
             }
         }
     }
 
     public void update() {
-        for (int col = 0; col < matrix.length; col++) {
-            for (int row = 0; row < matrix[col].length; row++) {
-                Cell cell = new Cell(col, row, this);
+        for (int row = 0; row < rows; row++) {
+            for (int col = 0; col < cols; col++) {
+                Cell cell = getCell(row, col);
                 cell.update();
             }
         }

@@ -4,12 +4,16 @@ package com.nolansio;
 public class Cell {
     private final int row;
     private final int col;
-    private final Matrix matrix;
+    private boolean alive;
     private int nextAlives;
+    private final Matrix matrix;
 
     public Cell(int row, int col, Matrix matrix) {
         this.row = row;
         this.col = col;
+
+        this.alive = false;
+        this.nextAlives = 0;
 
         this.matrix = matrix;
     }
@@ -20,6 +24,14 @@ public class Cell {
 
     public int getCol() {
         return col;
+    }
+
+    public boolean isAlive() {
+        return alive;
+    }
+
+    public void setAlive(boolean alive) {
+        this.alive = alive;
     }
 
     public Matrix getMatrix() {
@@ -34,14 +46,6 @@ public class Cell {
         this.nextAlives = nextAlives;
     }
 
-    public boolean isAlive() {
-        return getMatrix().isAlive(getRow(), getCol());
-    }
-
-    public void setAlive(boolean alive) {
-        getMatrix().setAlive(getRow(), getCol(), alive);
-    }
-
     public void checkNextAlives() {
         int nextAlives = 0;
 
@@ -51,10 +55,15 @@ public class Cell {
                     continue;
                 }
 
-                Cell next = new Cell(getRow() + row, getCol() + col, getMatrix());
+                int nextRow = getRow() + row;
+                int nextCol = getCol() + col;
 
-                if (next.isAlive()) {
-                    nextAlives++;
+                if (nextRow >= 0 && nextRow < getMatrix().getRows() && nextCol >= 0 && nextCol < getMatrix().getCols()) {
+                    Cell next = getMatrix().getCell(nextRow, nextCol);
+
+                    if (next.isAlive()) {
+                        nextAlives++;
+                    }
                 }
             }
         }
