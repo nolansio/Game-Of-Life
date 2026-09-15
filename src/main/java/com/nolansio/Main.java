@@ -11,7 +11,11 @@ public class Main {
 
         while (true) {
             if (!auto) {
-                IO.readln();
+                String stop = IO.readln();
+
+                if (stop.equals("stop") || stop.equals("exit")) {
+                    break;
+                }
             }
 
             matrix.check();
