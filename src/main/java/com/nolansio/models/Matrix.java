@@ -54,7 +54,7 @@ public class Matrix {
             int row = baseCell.getRow();
             int col = baseCell.getCol();
 
-            cells[row][col].setAlive(true);
+            cells[row][col].setAlive(baseCell.isAlive());
         }
 
         return cells;
