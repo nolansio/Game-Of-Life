@@ -1,16 +1,18 @@
 package com.nolansio.models;
 
+import java.util.List;
+
 
 public class Matrix {
     private final int rows;
     private final int cols;
     private final Cell[][] cells;
 
-    public Matrix(int rows, int cols) {
+    public Matrix(int rows, int cols, List<BaseCell> baseCells) {
         this.rows = rows;
         this.cols = cols;
 
-        this.cells = create(getRows(), getCols());
+        this.cells = create(getRows(), getCols(), baseCells);
     }
 
     public int getRows() {
@@ -29,7 +31,7 @@ public class Matrix {
         return getCells()[row][col];
     }
 
-    public Cell[][] create(int rows, int cols) {
+    public Cell[][] create(int rows, int cols, List<BaseCell> baseCells) {
         Cell[][] cells = new Cell[rows][cols];
 
         for (int row = 0; row < rows; row++) {
@@ -38,11 +40,12 @@ public class Matrix {
             }
         }
 
-        cells[0][1].setAlive(true);
-        cells[1][2].setAlive(true);
-        cells[2][0].setAlive(true);
-        cells[2][1].setAlive(true);
-        cells[2][2].setAlive(true);
+        for (BaseCell baseCell: baseCells) {
+            int row = baseCell.getRow();
+            int col = baseCell.getRow();
+
+            cells[row][col].setAlive(true);
+        }
 
         return cells;
     }
