@@ -1,29 +1,18 @@
 package com.nolansio.models;
 
 
-public class Cell {
-    private final int row;
-    private final int col;
+public class Cell extends BaseCell {
     private boolean alive;
     private int nextAlives;
     private final Matrix matrix;
 
     public Cell(int row, int col, Matrix matrix) {
-        this.row = row;
-        this.col = col;
+        super(row, col);
 
         this.alive = false;
         this.nextAlives = 0;
 
         this.matrix = matrix;
-    }
-
-    public int getRow() {
-        return row;
-    }
-
-    public int getCol() {
-        return col;
     }
 
     public boolean isAlive() {
