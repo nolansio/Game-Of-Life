@@ -15,7 +15,7 @@ public class Main {
             if (!auto) {
                 String stop = IO.readln();
 
-                if (stop.equals("stop") || stop.equals("exit")) {
+                if (stop != null && (stop.equals("stop") || stop.equals("exit"))) {
                     break;
                 }
             }
