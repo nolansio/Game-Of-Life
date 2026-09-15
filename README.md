@@ -11,7 +11,9 @@
 - Exécutables retrouvables dans `./build/libs/`
 
 > [!TIP]
-> L'option `--auto` permet d'exécuter le programme en continu sans attendre de saisie manuelle entre chaque affichage de la matrice.
+> L'option `--auto` permet d'exécuter le programme en continu sans attendre de saisie manuelle entre chaque affichage de la matrice.  
+> L'option `--times X` permet d'arrêter le programme après `X` fois de l'affichage de la matrice (premier exclu).
+
 
 ---
 
@@ -29,13 +31,13 @@ cd game_of_life
 ## Lancer l'application avec le code source
 ```bash
 ./gradlew run
-# ./gradlew run --args="--auto"
+# ./gradlew run --args="--auto --times 5"
 ```
 
 ## Lancer l'application avec l'exécutable JAR
 ```bash
 java -jar game_of_life-X.X.X.jar
-# java -jar game_of_life-X.X.X.jar --auto
+# java -jar game_of_life-X.X.X.jar --auto --times 5
 ```
 
 > [!NOTE]
