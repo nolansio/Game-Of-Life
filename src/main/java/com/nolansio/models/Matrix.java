@@ -37,15 +37,15 @@ public class Matrix {
     }
 
     public Cell[][] create(int rows, int cols) {
-        Cell[][] cells = new Cell[rows][cols];
-
-        if (rows > 3) {
+        if (rows < 3) {
             rows = 3;
         }
 
-        if (cols > 3) {
+        if (cols < 3) {
             cols = 3;
         }
+
+        Cell[][] cells = new Cell[rows][cols];
 
         for (int row = 0; row < rows; row++) {
             for (int col = 0; col < cols; col++) {
@@ -65,17 +65,17 @@ public class Matrix {
             int row = baseCell.getRow();
             int col = baseCell.getCol();
 
-            cells[row][col].setAlive(baseCell.isAlive());
+            if (row >= 0 && row < rows && col >= 0 && col < cols) {
+                cells[row][col].setAlive(baseCell.isAlive());
+            }
         }
 
         return cells;
     }
 
     public Cell[][] create(List<BaseCell> baseCells) {
-        Cell[][] cells = new Cell[rows][cols];
-
-        int furthestRow = 3;
-        int furthestCol = 3;
+        int furthestRow = 2;
+        int furthestCol = 2;
 
         for (BaseCell baseCell : baseCells) {
             int row = baseCell.getRow();
@@ -90,8 +90,13 @@ public class Matrix {
             }
         }
 
-        for (int row = 0; row < furthestRow; row++) {
-            for (int col = 0; col < furthestCol; col++) {
+        int rows = furthestRow + 1;
+        int cols = furthestCol + 1;
+
+        Cell[][] cells = new Cell[rows][cols];
+
+        for (int row = 0; row < rows; row++) {
+            for (int col = 0; col < cols; col++) {
                 cells[row][col] = new Cell(row, col, this);
             }
         }
