@@ -1,6 +1,4 @@
-package com.nolansio;
-
-import com.nolansio.models.Cell;
+package com.nolansio.models;
 
 
 public class Matrix {

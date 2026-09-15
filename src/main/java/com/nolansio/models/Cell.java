@@ -1,7 +1,5 @@
 package com.nolansio.models;
 
-import com.nolansio.Matrix;
-
 
 public class Cell {
     private final int row;
