@@ -1,16 +1,23 @@
 package com.nolansio.models;
 
+import java.util.List;
+
 
 public class Matrix {
     private final int rows;
     private final int cols;
     private final Cell[][] cells;
 
-    public Matrix(int rows, int cols) {
+    public Matrix(int rows, int cols, List<BaseCell> baseCells) {
         this.rows = rows;
         this.cols = cols;
 
-        this.cells = create(getRows(), getCols());
+        if (baseCells.isEmpty()) {
+            this.cells = create(getRows(), getCols());
+            return;
+        }
+
+        this.cells = create(baseCells);
     }
 
     public int getRows() {
@@ -30,6 +37,14 @@ public class Matrix {
     }
 
     public Cell[][] create(int rows, int cols) {
+        if (rows < 3) {
+            rows = 3;
+        }
+
+        if (cols < 3) {
+            cols = 3;
+        }
+
         Cell[][] cells = new Cell[rows][cols];
 
         for (int row = 0; row < rows; row++) {
@@ -38,11 +53,60 @@ public class Matrix {
             }
         }
 
-        cells[0][1].setAlive(true);
-        cells[1][2].setAlive(true);
-        cells[2][0].setAlive(true);
-        cells[2][1].setAlive(true);
-        cells[2][2].setAlive(true);
+        List<BaseCell> baseCells = List.of(
+                new BaseCell(0, 1, true),
+                new BaseCell(1, 2, true),
+                new BaseCell(2, 0, true),
+                new BaseCell(2, 1, true),
+                new BaseCell(2, 2, true)
+        );
+
+        for (BaseCell baseCell : baseCells) {
+            int row = baseCell.getRow();
+            int col = baseCell.getCol();
+
+            if (row >= 0 && row < rows && col >= 0 && col < cols) {
+                cells[row][col].setAlive(baseCell.isAlive());
+            }
+        }
+
+        return cells;
+    }
+
+    public Cell[][] create(List<BaseCell> baseCells) {
+        int furthestRow = 2;
+        int furthestCol = 2;
+
+        for (BaseCell baseCell : baseCells) {
+            int row = baseCell.getRow();
+            int col = baseCell.getCol();
+
+            if (row > furthestRow) {
+                furthestRow = row;
+            }
+
+            if (col > furthestCol) {
+                furthestCol = col;
+            }
+        }
+
+        int rows = furthestRow + 1;
+        int cols = furthestCol + 1;
+
+        Cell[][] cells = new Cell[rows][cols];
+
+        for (int row = 0; row < rows; row++) {
+            for (int col = 0; col < cols; col++) {
+                cells[row][col] = new Cell(row, col, this);
+            }
+        }
+
+        for (BaseCell baseCell : baseCells) {
+            int row = baseCell.getRow();
+            int col = baseCell.getCol();
+
+            cells[row][col].setAlive(baseCell.isAlive());
+        }
 
         return cells;
     }
