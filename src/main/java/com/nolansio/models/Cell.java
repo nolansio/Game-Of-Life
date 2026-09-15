@@ -2,25 +2,14 @@ package com.nolansio.models;
 
 
 public class Cell extends BaseCell {
-    private boolean alive;
     private int nextAlives;
     private final Matrix matrix;
 
     public Cell(int row, int col, Matrix matrix) {
-        super(row, col);
+        super(row, col, false);
 
-        this.alive = false;
         this.nextAlives = 0;
-
         this.matrix = matrix;
-    }
-
-    public boolean isAlive() {
-        return alive;
-    }
-
-    public void setAlive(boolean alive) {
-        this.alive = alive;
     }
 
     public Matrix getMatrix() {
@@ -67,7 +56,7 @@ public class Cell extends BaseCell {
             // Nothing
         } else if (getNextAlives() == 3) {
             setAlive(true);
-        } else {
+        } else if (getNextAlives() > 3) {
             setAlive(false);
         }
     }

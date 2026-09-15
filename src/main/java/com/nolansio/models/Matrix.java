@@ -40,9 +40,19 @@ public class Matrix {
             }
         }
 
-        for (BaseCell baseCell: baseCells) {
+        if (baseCells.isEmpty()) {
+            baseCells = List.of(
+                    new BaseCell(0, 1, true),
+                    new BaseCell(1, 2, true),
+                    new BaseCell(2, 0, true),
+                    new BaseCell(2, 1, true),
+                    new BaseCell(2, 2, true)
+            );
+        }
+
+        for (BaseCell baseCell : baseCells) {
             int row = baseCell.getRow();
-            int col = baseCell.getRow();
+            int col = baseCell.getCol();
 
             cells[row][col].setAlive(true);
         }
