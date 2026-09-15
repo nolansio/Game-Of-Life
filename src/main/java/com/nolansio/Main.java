@@ -7,22 +7,61 @@ public class Main {
     static void main(String[] args) {
         Matrix matrix = new Matrix(10, 10);
 
-        matrix.display();
+        boolean auto = false;
+        int times = Integer.MAX_VALUE;
 
-        boolean auto = args.length > 0 && args[0].equals("--auto");
+        boolean infinite = true;
+        boolean validate = true;
 
-        while (true) {
-            if (!auto) {
-                String stop = IO.readln();
+        for (int i = 0; i < args.length; i++) {
+            String arg = args[i];
 
-                if (stop != null && (stop.equals("stop") || stop.equals("exit"))) {
-                    break;
-                }
+            if (arg.equals("--auto")) {
+                auto = true;
             }
 
-            matrix.check();
-            matrix.update();
+            if (arg.equals("--times")) {
+                try {
+                    times = Integer.parseInt(args[i+1]);
+                } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
+                    IO.println("Argument '--times' must be followed by a positive integer");
+                    validate = false;
+                }
+
+                if (times <= 0) {
+                    IO.println("Argument '--times' must be followed by a positive integer");
+                    validate = false;
+                }
+
+                infinite = false;
+            }
+        }
+
+        if (validate) {
             matrix.display();
+            times--;
+
+            while (times >= 0 || infinite) {
+                times--;
+
+                if (!auto) {
+                    String stop = IO.readln();
+
+                    if (stop != null && (stop.equals("stop") || stop.equals("exit"))) {
+                        break;
+                    }
+                }
+
+                matrix.check();
+                matrix.update();
+                matrix.display();
+
+                try {
+                    Thread.sleep(50);
+                } catch(InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
+            }
         }
     }
 }
