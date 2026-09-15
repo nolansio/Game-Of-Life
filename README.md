@@ -20,7 +20,7 @@
 
 ## Cloner le dépôt
 ```bash
-git clone https://github.com/nolansio/Game-Of-Life game_of_life
+git clone https://github.com/nolansio/Game-of-Life game_of_life
 cd game_of_life
 ```
 
