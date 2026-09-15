@@ -1,4 +1,6 @@
-package com.nolansio;
+package com.nolansio.models;
+
+import com.nolansio.Matrix;
 
 
 public class Main {
